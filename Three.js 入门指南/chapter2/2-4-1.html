@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+		<script type="text/javascript">
+			function init() {
+				/*
+				 * 透视投影照相机
+				 */
+				// var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+				// fov: 视景体竖直方向上的张角 (是角度而非弧度制) : 垂直张角;
+				// aspect: 等于 width / height, 是照相机水平方向和竖直方向长度的比值, 通常设为 Canvas 的纵横比例;
+				// near: 照相机到视景体最近的距离, 为正值, 小于 far;
+				// far: 照相机到视景体最远的距离, 为正值, 大于 near;
+				
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+
+				var camera = new THREE.PerspectiveCamera(45, 400 / 300, 1, 10);
+				camera = new THREE.PerspectiveCamera(60, 400 / 300, 1, 10);
+				// 改变 fov 并不会引起画面横竖比例的变化, 而改变 aspect 则会改变横竖比例
+				
+				camera.position.set(0, 0, 5);
+				scene.add(camera);
+				
+				var cube = new THREE.Mesh(
+					new THREE.CubeGeometry(1, 1, 1),
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(cube);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

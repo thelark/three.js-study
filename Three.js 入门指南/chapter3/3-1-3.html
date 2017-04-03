@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 几何图形 - 球体
+			 */
+			var sphereGeo = new THREE.SphereGeometry(radius, segmentsWidth, segmentsHeight, phiStart, phiLength, thetaStart, thetaLength);
+			// radius: 球体半径;
+			// segmentsWidth: 经度上的切片数;
+			// segmentsHeight: 纬度上的切片数;
+			// phiStart: 经度开始的弧度;
+			// phiLength: 经度跨过的弧度;
+			// thetaStart: 纬度开始的弧度;
+			// thetaLength: 纬度跨过的弧度;
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(0, 2, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var sphereGeo = new THREE.SphereGeometry(2, 8, 6);
+				sphereGeo = new THREE.SphereGeometry(2, 18, 12);
+				sphereGeo = new THREE.SphereGeometry(
+					2, 
+					8, 
+					6, 
+					Math.PI / 6, 
+					Math.PI / 3
+				);
+				sphereGeo = new THREE.SphereGeometry(
+					2,
+					8,
+					6,
+					0,
+					Math.PI * 2,
+					Math.PI / 6,
+					Math.PI / 3
+				);
+				sphereGeo = new THREE.SphereGeometry(
+					2,
+					8,
+					6,
+					Math.PI / 2,
+					Math.PI,
+					Math.PI / 6,
+					Math.PI / 2
+				);
+				var sphere = new THREE.Mesh(
+					sphereGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(sphere);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

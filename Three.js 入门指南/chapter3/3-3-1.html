@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 自定义形状
+			 */
+			var geo = new THREE.Geometry();
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var geometry = new THREE.Geometry();
+				// 设置顶点位置
+				// 顶部 4 顶点
+				geometry.vertices.push(new THREE.Vector3(-1, 2, -1));
+				geometry.vertices.push(new THREE.Vector3(1, 2, -1));
+				geometry.vertices.push(new THREE.Vector3(1, 2, 1));
+				geometry.vertices.push(new THREE.Vector3(-1, 2, 1));
+				// 底部 4 顶点
+				geometry.vertices.push(new THREE.Vector3(-2, 0, -2));
+				geometry.vertices.push(new THREE.Vector3(2, 0, -2));
+				geometry.vertices.push(new THREE.Vector3(2, 0, 2));
+				geometry.vertices.push(new THREE.Vector3(-2, 0, 2));
+				
+				// 设置定点连接情况
+				// 顶面
+				geometry.faces.push(new THREE.Face4(0, 1, 2, 3));
+				// 底面
+				geometry.faces.push(new THREE.Face4(4, 5, 6, 7));
+				// 四个侧面
+				geometry.faces.push(new THREE.Face4(0, 1, 5, 4));
+				geometry.faces.push(new THREE.Face4(1, 2, 6, 5));
+				geometry.faces.push(new THREE.Face4(2, 3, 7, 6));
+				geometry.faces.push(new THREE.Face4(3, 0, 4, 7));
+				/*
+				 * 需 要 注 意 的 是， new THREE.Vector3(-1, 2, -1) 创 建 一 个 矢 量， 作 为 顶 点 位 置 追 加 到 geometry.vertices 数 组 中。
+				 * 而 由 new THREE.Face4( 0, 1, 2, 3) 创 建 一 个 四 个 顶 点 组 成 的 面 片， 追 加 到 geometry.faces 数 组 中。 四 个 参 数 分 别 是 四 个 顶 点 在 geometry.vertices 中 的 序 号。 如 果 需 要 设 置 由 三 个 顶 点 组 成 的 面 片， 可 以 类 似 地 使 用 THREE.Face3。
+				 * （注： 最 新 版 本 的 Three.js 已 弃 用 Face4， 请 使 用 Face3）
+				 */
+				scene.add(
+					new THREE.Mesh(
+						geometry,
+						new THREE.MeshBasicMaterial({
+							color: 0xff0000,
+							wireframe: true
+						})
+					)
+				);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

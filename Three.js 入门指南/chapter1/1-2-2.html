@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../../js/three.js"></script>
+		<script>
+			function init() {
+				/*
+				 * 创建渲染器
+				 */
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				// 如果想要 Three.js 生成 Canvas 元素, 在 HTML 中就不需要
+				// 定义 Canvas 元素, 在 Javascript 代码中可以这样写
+				//				var renderer = new THREE.WebGLRenderer();
+				//				renderer.setSize(400, 300);
+				//				document.getElementsByTagName('body')[0].appendChild(renderer.domElement);
+
+				renderer.setClearColor(0x000000); // 将背景色设置成黑色
+				
+				/*
+				 *  创建场景
+				 */
+				var scene = new THREE.Scene();
+
+				/*
+				 * 创建照相机 (x→ y↑ z↙)
+				 */
+				var camera = new THREE.PerspectiveCamera(45, 4 / 3, 1, 1000); // 定义一个透视投影的照相机
+				camera.position.set(0, 0, 5);
+				scene.add(camera); // 照相机也需要被添加到场景中
+
+				/*
+				 * 创建长方体
+				 */
+				var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3),
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000
+					})
+				); // 创建一个 x、y、z 方向长度分别为 1、2、3 (相对长度) 的长方体, 并将其设置为红色
+				scene.add(cube); // 将创建好的 长方体 添加到场景中
+				
+				/*
+				 * 渲染
+				 */
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+
+</html>

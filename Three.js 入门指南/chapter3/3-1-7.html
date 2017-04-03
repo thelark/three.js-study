@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../../js/three.js" ></script>
+		<script type="text/javascript">
+			/*
+			 * 几何图形 - 圆环面
+			 */
+			// var torusGeo = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arc);
+			// radius: 圆环半径;
+			// tube: 管道半径;
+			// radialSegments: 圆环切面棱角数;
+			// tubularSegments: 圆环分段数;
+			// arc: 圆环面的弧度, 默认值为 Math.PI * 2;
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var torusGeo = new THREE.TorusGeometry(3, 1, 4, 8);
+				torusGeo = new THREE.TorusGeometry(3, 1, 12, 18);
+				torusGeo = new THREE.TorusGeometry(3, 1, 4, 8, Math.PI / 3 * 2);
+				var torus = new THREE.Mesh(
+					torusGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(torus);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

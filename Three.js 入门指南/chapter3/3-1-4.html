@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 几何图形 - 圆形
+			 */
+			// var circleGeo = new THREE.CircleGeometry(radius, segments, thetaStart, thetaLength);
+			// radius: 圆形半径;
+			// segments: 圆形被分割份数;
+			// thetaStart: 圆形开始的弧度;
+			// thetaLength: 圆形弧度的长度;
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(0, 2, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var circleGeo = new THREE.CircleGeometry(
+					3,
+					18,
+					Math.PI / 3,
+					Math.PI / 3 * 4
+				);
+				var circle = new THREE.Mesh(
+					circleGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(circle);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

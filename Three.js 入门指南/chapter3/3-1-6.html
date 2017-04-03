@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 几何图形 - 正四面体、正八面体、正二十面体
+			 */
+			// 正四面体
+			// var tetrahedronGeo = new THREE.TetrahedronGeometry(radius, detail);
+			// 正八面体
+			// var octahedronGeo = new THREE.OctahedronGeometry(radius, detail);
+			// 正二十面体
+			// var icosahedronGeo = new THREE.IcosahedronGeometry(radius, detail);
+			// radius: 半径;
+			// detail: 细节层次的层数, 对于大面片数模型, 可以控制在视角靠近物体时, 显示面片数多的精细模型, 而在离物体较远时, 显示面片数较少的粗略模型;
+			
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var ahedronGeo = new THREE.TetrahedronGeometry(3);
+				ahedronGeo = new THREE.OctahedronGeometry(3);
+				ahedronGeo = new THREE.IcosahedronGeometry(3);
+				var ahedron = new THREE.Mesh(
+					ahedronGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(ahedron);
+				
+				renderer.render(scene, camera);
+			}
+			
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 文字形状
+			 */
+			// var textGeo = new THREE.TextGeometry(text, parameters);
+			// text: 文字字符串;
+			// parameters: 参数组对象
+			//	-> size: 字号大小, 一般为大写字母的高度;
+			//	-> height: 文字的厚度;
+			//	-> curveSegments: 弧线分段数, 使得文字的曲线更加光滑;
+			//	-> font: 字体, 默认是 'helvetiker', 需对应引用的字体文件;
+			//	-> weight: 值为 'normal' 或 'bold', 表示是否加粗;
+			//	-> style: 值为 'normal' 或 'italics', 表示是否斜体;
+			//	-> bevelEnabled: 布尔值, 是否使用倒角, 意为在边缘处斜切;
+			//	-> bevelThickness: 倒角厚度;
+			//	-> bevelSize: 倒角宽度;
+
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+
+				var textGeo = new THREE.TextGeometry('Hello', { size: 1, height: 1 });
+				var text = new THREE.Mesh(
+					textGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(text);
+
+
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+
+</html>

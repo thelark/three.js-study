@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			/*
+			 * 几何形状 - 立方体
+			 */
+			// var cubeGeo = new THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments);
+			// width: x 方向上的长度;
+			// height: y 方向上的长度;
+			// depth: z 方向上的长度;
+			// widthSegments: x 方向分段数, 例如: 值为 3, 表示 x 方向上水平分为三份, 可以不设置, 默认值为 1;
+			// heightSegments: y 方向分段数, 例如: 值为 3, 表示 y 方向上水平分为三份, 可以不设置, 默认值为 1;
+			// depthSegments: z 方向分段数, 例如: 值为 3, 表示 y 方向上水平分为三份, 可以不设置, 默认值为 1;
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				var cubeGeo = new THREE.CubeGeometry(1, 2, 3, 2, 2, 3);
+				var cube = new THREE.Mesh(
+					cubeGeo,
+					new THREE.MeshBasicMaterial({
+						color: 0xff0000,
+						wireframe: true
+					})
+				);
+				scene.add(cube);
+
+				renderer.render(scene, camera);
+			}
+			
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

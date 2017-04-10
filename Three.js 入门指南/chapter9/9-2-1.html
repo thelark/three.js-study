@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 着色器 - 初窥着色器 - 顶点着色器
+			 */
+			/* 
+			 * // 将 uv 信息传递到片元着色器中, 并按默认的方式计算顶点的位置.
+			 * varying vec2 vUv; // 声明了一个叫 vUv 的变量, 它的类型为 vec2 (二维的向量), 该变量是为了将顶点着色器中的信息传递到片元着色器中.
+			 * void main() {
+			 * 		// passing texture to fragment shader
+			 * 		vUv = uv; // uv 是 Three.js 帮你传进来的一个很有用的属性, 它代表了该顶点在 UV 映射时的纵横坐标.是二维向量, 可以使用 uv.x 和 uv.y 分别访问到 uv 两个维度的值. 
+			 * 		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); // position 是 Three.js 为我们提供的一个顶点在物体坐标系 (而不是世界坐标系) 中的位置. 这就意味着, 一个正方体位于世界坐标系的 (2, 0, 0) 与位于 (0, 0, 0) 将不会改变任何顶点的 position, 这个 position 是相对于正方体的锚点而言的.
+			 * }
+			 * 
+			 * 说明:
+			 * 和 C 语言一样, 着色器程序也从 main 开始调用.
+			 * varing 是 WebGL 定义的限定符 (Qualifier), 限定符用于数据类型 (Type) 之前, 表明该变量的性质.
+			 * 限定符共有四个:
+			 * 	-> const: 常量;
+			 * 	-> attribute: 从 JavaScript 代码传递到顶点着色器中, 每个顶点对应不同的值;
+			 * 	-> uniform: 每个顶点 / 片元对应相同的值;
+			 * 	-> varying: 从顶点着色器传递到片元着色器中;
+			 * 如果不写限定符, 那么默认是只有在当前文件中能访问.
+			 */
+			
+			function init() {
+				
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

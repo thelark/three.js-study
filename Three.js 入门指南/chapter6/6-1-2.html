@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 动画 - 实现动画效果 - setInterval
+			 */
+			// setInterval(func, msec);
+			// func: 每过 msec 毫秒执行的函数
+			// setInterval 函数返回一个 id, 如果需要停止重绘, 需要使用 clearInterval 方法, 并传入该 id
+			var id;
+			function init() {
+				id = setInterval(draw, 20); 
+				
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var material = new THREE.MeshBasicMaterial({
+					color: 0xffff00
+				});
+				var geometry = new THREE.CubeGeometry(1, 2, 3);
+				var mesh = new THREE.Mesh(geometry, material);
+				scene.add(mesh);
+				mesh.material = new THREE.MeshBasicMaterial({
+					color: 0xff0000
+				});
+				
+				renderer.render(scene, camera);
+				
+				function draw() {
+					mesh.rotation.y = (mesh.rotation.y + 0.01) % (Math.PI * 2);
+					renderer.render(scene, camera);	
+				}
+			}
+			function stop() {
+				if (id !== null) {
+					clearInterval(id);
+					id = null;
+				}
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<button id="stopBtn" onclick="stop()">Stop</button>
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

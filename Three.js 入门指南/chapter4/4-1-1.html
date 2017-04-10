@@ -3,7 +3,44 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 材质 - 基本材质
+			 */
+			// var basicMaterial = new THREE.MeshBasicMaterial(opt);
+			// opt: 各属性的值, 可缺省;
+			//	-> visible: 是否可见, 默认为 true;
+			//	-> side: 渲染面片正面或是反面, 默认为正面 THREE.FrontSide, 可设置为反面 THREE.BackSide, 或双面 THREE.DoubleSide;
+			//	-> wireframe: 是否渲染线而非面, 默认为 false;
+			//	-> color: 十六进制 RGB 颜色, 如红色表示为 0xff0000;
+			//	-> map: 使用纹理贴图;
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var basicMaterial = new THREE.MeshBasicMaterial({
+					color: 0xffff00,
+					opacity: 0.75
+				});
+				var cube = new THREE.Mesh(
+					new THREE.CubeGeometry(1, 2, 3, 2, 2, 3),
+					basicMaterial
+				);
+				scene.add(cube);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
 	</head>
-	<body>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
 	</body>
 </html>

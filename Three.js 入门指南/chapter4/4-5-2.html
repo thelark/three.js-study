@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 材质 - 材质的纹理贴图
+			 * 六张图像应用于长方体
+			 */
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+
+				var materials = [];
+				for(var i = 0; i < 6; i++) {
+					materials.push(new THREE.MeshBasicMaterial({
+						map: new THREE.TextureLoader().load(
+							'../../img/' + i + '.png',
+							function () {
+								renderer.render(scene, camera);
+							}
+						),
+						overdraw: true
+					}));
+				}
+
+				var cubeGeo = new THREE.CubeGeometry(3, 3, 3);
+				var cube = new THREE.Mesh(
+					cubeGeo,
+					new THREE.MultiMaterial(materials)
+				);
+				scene.add(cube);
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+
+</html>

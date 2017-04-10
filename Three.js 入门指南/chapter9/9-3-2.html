@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery-3.2.0.js"></script>
+		<script type="text/javascript">
+			/*
+			 * 着色器 - 着色器完整实例 - 单独的着色器文件
+			 */
+			/*
+			 * 使用单独的着色器文件, 需要在 javascript 代码中导入着色器文件. 我们假设顶点着色器定义在 shader/my.vs 文件中, 片元
+			 * 着色器定义在 shader/my.fs 中.
+			 * 可以使用 Ajax 完成导入文件的工作, 而如果使用 jQuery 的 get 函数就可以更方便地实现.
+			 */		 
+			 // load shader
+			// $.get('shader/my.vs', function (vShader) {
+			// 	$.get('shader/my.fs', function (fShader) {
+			// 		// TODO
+			// 	})
+			// });
+			 /*
+			  * jQuery 的 get 函数第一个参数为文件路径, 第二个参数为到为导入文件后的回调函数, 这里我们在加载完顶点着色器后加载片元着色器.
+			  * vShader 与 fShader 分别为导入的着色器程序, 用来构造着色器材质.
+			  */
+			 function init() {
+			 	$.get('shader/my.vs', function (vShader) {
+			 		$.get('shader/my.fs', function (fShader) {
+			 			material = new THREE.ShaderMaterial({
+			 				vertexShader: vShader,
+			 				fragementShader: fShader
+			 			});
+			 		});
+			 	});
+			 }
+			 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

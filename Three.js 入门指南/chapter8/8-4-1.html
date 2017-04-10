@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 光与影 - 聚光灯
+			 */
+			// var spotLight = new THREE.SpotLight(hex, intensity, distance, angle, exponent);
+			// hex: 光源十六进制的颜色;
+			// intensity: 亮度, 默认值为 1, 表示 100% 亮度;
+			// distance: 光源最远照射到的距离, 默认值为 0;
+			// angle: 聚光灯的张角, 默认值为 Math.PI / 3, 最大值为 Math.PI / 2;
+			// exponent: 光强在偏离 target 的衰减指数 (target 需要在之后定义, 默认值为 (0, 0, 0)), 缺省值为 10;
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+					
+				var cube = new THREE.Mesh(
+					new THREE.CubeGeometry(1, 1, 1),
+					new THREE.MeshLambertMaterial({
+						color: 0x00ff00
+					})
+				);
+				cube.position.x = -2;
+				scene.add(cube);
+				
+				var light = new THREE.SpotLight(0xffff00, 1, 100, Math.PI / 6, 25);
+				light.target = cube;
+				scene.add(light);
+				
+				renderer.render(scene, camera);	
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

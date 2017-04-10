@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 动画 - 实现动画效果 - 如何取舍
+			 */
+			/*
+			 * setInterval 方法与 requestAnimationFrame 方法的区别较为
+			 * 微妙.一方面, 最明显的差别表现在 setInterval 可以手动设定FPS,
+			 * 而 requestAnimationFrame 则会自动设定 FPS; 但另一方面, 即使
+			 * 是 setInterval 也不能保证按照给定的 FPS 执行, 在浏览器处理繁
+			 * 忙时, 很可能低于设定值. 当浏览器达不到设定的调用周期时, requestAnimationFrame
+			 * 采用跳过某些帧的方式来表现动画, 虽然会有卡滞的效果但是整体速度
+			 * 不会拖慢, 而 setInterval 会因此使整个程序放慢运行, 但是每一帧
+			 * 都会绘制出来; 总而言之, requestAnimationFrame 适用于对于时间
+			 * 较为敏感的环境 (但是动画逻辑更加复杂), 而 setInterval 则可在保
+			 * 证程序的运算不至于导致延迟的情况下提供更加简洁的逻辑 (无需自行处
+			 * 	理时间).
+			 */
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

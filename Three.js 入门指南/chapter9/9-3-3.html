@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery-3.2.0.js"></script>
+		<script type="text/javascript">
+			/*
+			 * 着色器 - 着色器完整实例 - HTML 中的着色器代码
+			 */
+		</script>
+		<script id="vs" type="x-shader/x-vertex">
+			// 这里的内容相当于 .vs 文件中的内容
+		</script>
+		<script id="fs" type="x-shader/x-fragment">
+			// 这里的内容相当于 .fs 文件中的内容
+		</script>
+		<script type="text/javascript">
+			var material = new THREE.ShaderMaterial({
+				vertexShader: document.getElementById('vs').textContent,
+				fragmentShader: document.getElementById('fs').textContent
+			});
+		</script>
+			
+	</head>
+	<body>
+	</body>
+</html>

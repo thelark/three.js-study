@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../../js/three.js" ></script>
+		<script type="text/javascript">
+			/*
+			 * 材质 - 法向材质
+			 * 法向材质可以将材质的颜色设置为其法向量的方向, 有时对于调试很有帮助
+			 */
+			// var normalMaterial = new THREE.MeshNormalMaterial();
+			
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(5, 25, 25); 
+				camera.position.set(25, 25, 25);
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var normalMaterial = new THREE.MeshNormalMaterial();
+				var cube = new THREE.Mesh(
+					new THREE.CubeGeometry(1, 2, 3, 2, 2, 3),
+					normalMaterial
+				);
+				scene.add(cube);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

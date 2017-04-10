@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 光与影 - 环境光
+			 */
+			// var ambientLight = new THREE.AmbientLight(hex);
+			// hex: 十六进制的 RGB 颜色信息;
+			// 环境光通常使用白色或者灰色, 作为整体光照的基础
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var light = new THREE.AmbientLight(0xffffff);
+				light = new THREE.AmbientLight(0xcccccc); // 光源暗一点
+				light = new THREE.AmbientLight(0xff0000); // 红色环境光
+				scene.add(light);
+				
+				// 由于红色通道是 0, 环境光是完全的红光, 因此该长方体不能反射任何光线, 最终渲染成黑色
+				var greenCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						color: 0x00ff00
+					})
+				);
+				// 环境光并不在乎物体材质的 ambient 属性. color 默认值是 0xffffff
+				greenCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						ambient: 0x00ff00
+					})
+				);
+				greenCube.position.x = 3;
+				scene.add(greenCube);
+				
+				// 由于红色通道是 0xff, 所以能反射所有红光
+				var whiteCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						color: 0xffffff
+					})
+				);
+				// 环境光并不在乎物体材质的 ambient 属性. color 默认值是 0xffffff
+				whiteCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						embient: 0xffffff
+					})
+				);
+				whiteCube.position.x = -3;
+				scene.add(whiteCube);
+				
+				renderer.render(scene, camera);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

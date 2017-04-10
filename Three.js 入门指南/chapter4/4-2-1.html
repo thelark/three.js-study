@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 材质 - Lambert 材质
+			 * Lambert 材质是符合 Lambert 光照模型的材质
+			 * 其主要特点是只考虑漫反射而不考虑镜面反射的效果
+			 * 光照模型公式为: Idiffuse = Kd * Id * cos(theta)
+			 * 		Idiffuse: 漫反射光强
+			 * 		Kd: 物体表面的漫反射属性
+			 * 		Id: 光强
+			 * 		theta: 光的入射角弧度
+			 */
+			// var lambertMaterial = new THREE.MeshLambertMaterial(opt);
+			// opt: 各属性的值, 可缺省;
+			//	-> visible: 是否可见, 默认为 true;
+			//	-> side: 渲染面片正面或是反面, 默认为正面 THREE.FrontSide, 可设置为反面 THREE.BackSide, 或双面 THREE.DoubleSide;
+			//	-> wireframe: 是否渲染线而非面, 默认为 false;
+			//	-> color: 表现材质对散射光的反射能力, 也是最常用来设置材质颜色的属性;
+			//	-> ambient: 表示对环境光的反射能力, 只有当设置了 AmbientLight 后, 该值才是有效的, 材质对环境光的反射能力与环境光强相乘后得到材质实际表现的颜色;
+			//	-> emissive: 材质的自发光颜色, 可以用来表现光源的颜色;
+			//	-> map: 使用纹理贴图;
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(3, 3, 3); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var lambertMaterial = new THREE.MeshLambertMaterial({
+					color: 0xffff00,
+					emissive: 0xff0000
+				});
+				var cube = new THREE.Mesh(
+					new THREE.CubeGeometry(1, 2, 3, 2, 2, 3),
+					lambertMaterial
+				);
+				scene.add(cube);
+				
+				renderer.render(scene, camera);	
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

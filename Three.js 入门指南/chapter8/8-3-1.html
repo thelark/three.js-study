@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 光与影 - 平行光
+			 */
+			// var directionalLight = new THREE.DirectionalLight(hex, intensity);
+			// hex: 光源十六进制的颜色;
+			// intensity: 亮度, 默认值为 1, 表示 100% 亮度;
+			function init() {
+				var renderer = new THREE.WebGLRenderer({
+					canvas: document.getElementById("mainCanvas")
+				});
+				renderer.setClearColor(0x000000);
+				var scene = new THREE.Scene();
+				var camera = new THREE.OrthographicCamera(-4, 4, 3, -3, 1, 10);
+				camera.position.set(4, 3, 5); // 仰望正方体
+				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
+				scene.add(camera);
+				
+				var light = new THREE.DirectionalLight();
+				light.position.set(2, 5, 3);
+				scene.add(light);
+				
+				var greenCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						color: 0x00ff00
+					})
+				);
+				greenCube.position.x = 3;
+				scene.add(greenCube);
+				
+				var whiteCube = new THREE.Mesh(
+					new THREE.CubeGeometry(2, 2, 2),
+					new THREE.MeshLambertMaterial({
+						color: 0xffffff
+					})
+				);
+				whiteCube.position.x = -3;
+				scene.add(whiteCube);
+				
+				renderer.render(scene, camera);	
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
+	</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -10,64 +11,60 @@
 			 * 着色器 - 着色器完整实例 - HTML 中的着色器代码
 			 */
 		</script>
-		<script id="vs" type="x-shader/x-vertex">
-			// 这里的内容相当于 .vs 文件中的内容
-			varying vec2 vUv;
-			void main() {
-				vUv = uv;
-				gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-			}
-		</script>
-		<script id="fs" type="x-shader/x-fragment">
-			// 这里的内容相当于 .fs 文件中的内容
-			varying vec2 vUv;
-			void main() {
-				gl_FragColor = vec4(vUv.x, vUv.y, 0.0, 1.0);
-			}
-		</script>
+
 		<script type="text/javascript">
 			var scene = null;
 			var camera = null;
 			var renderer = null;
 			var cube = null;
-			
+			var material = null;
+
 			function init() {
 				renderer = new THREE.WebGLRenderer({
 					canvas: document.getElementById('mainCanvas')
 				});
 				scene = new THREE.Scene();
-				
+
 				camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 100);
 				camera.position.set(5, 15, 25);
 				camera.lookAt(new THREE.Vector3(0, 0, 0));
 				scene.add(camera);
-				
+
 				var light = new THREE.DirectionalLight();
 				light.position.set(3, 2, 5);
 				scene.add(light);
+
+				$.get('../../shader/test.vs', function(vShader) {
+					$.get('../../shader/test.fs', function(fShader) {
+						material = new THREE.ShaderMaterial({
+							vertexShader: vShader,
+							fragmentShader: fShader
+						});
+						cube = new THREE.Mesh(
+							new THREE.CubeGeometry(2, 2, 2),
+							material
+						);
+						scene.add(cube);
+						var draw = function() {
+							cube.rotation.y += 0.01;
+							if(cube.rotation.y > Math.PI * 2) {
+								cube.rotation.y -= Math.PI * 2;
+							}
+							renderer.render(scene, camera);
+							requestAnimationFrame(arguments.callee);
+						}
+						draw();
+					});
+				});
+
 				
-				cube = new THREE.Mesh(
-					new THREE.CubeGeometry(2, 2, 2),
-					new THREE.ShaderMaterial({
-						vertexShader: document.getElementById('vs').textContent,
-						fragmentShader: document.getElementById('fs').textContent
-					})
-				);
-				scene.add(cube);
-				draw();
-			}
-			function draw() {
-				cube.rotation.y += 0.01;
-				if (cube.rotation.y > Math.PI * 2) {
-					cube.rotation.y -= Math.PI * 2;
-				}
-				renderer.render(scene, camera);
-				requestAnimationFrame(arguments.callee);
 			}
 		</script>
-			
+
 	</head>
+
 	<body onload="init()">
 		<canvas id="mainCanvas" width="400px" height="300px"></canvas>
 	</body>
+
 </html>

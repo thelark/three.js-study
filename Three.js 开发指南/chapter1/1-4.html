@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery-3.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="WebGL-output"></div>
+		
+		<script type="text/javascript">
+			/*
+			 * 用 Three.js 创建你的第一个三维场景 - 渲染并展示三维对象
+			 */
+			/*
+			 * 如果你看过 Three.js 的源代码和文档, 你会发现除了基于 WebGL
+			 * 的渲染器外, 还有一些其他的渲染器. 有基于画板 (Canvas) 的渲
+			 * 染器, 甚至还有基于 SVG 的渲染器. 尽管它们可以工作, 也能渲
+			 * 染简单的场景, 但是不推荐, 因为它们十分耗费 CPU 资源, 也缺
+			 * 乏某些功能, 例如支持复杂材质和阴影.
+			 */
+			// TODO: three.js 代码
+			$(function() {
+				var scene = new THREE.Scene(); // 定义一个场景
+				// 定义一个相机
+				var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+				// 定义一个渲染器
+				var renderer = new THREE.WebGLRenderer();
+				// 设置 renderer 的背景色
+				renderer.setClearColor(0xeeeeee);
+				// 告诉 renderer 将 scene 渲染成多大尺寸
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				
+				// 定义一个坐标尺，各轴的长度为 20 (红色 x 轴, 绿色 y 轴, 蓝色 z 轴)
+				var axes = new THREE.AxisHelper(60);
+				scene.add(axes); // 向场景中添加坐标尺
+				
+				var planeGeo = new THREE.PlaneGeometry(60, 20, 1, 1); // 定义平面尺寸为 宽 60 高 20; 宽高分段数均为 1
+				// 创建一个基本材质，颜色是 #cccccc
+				var planeMaterial = new THREE.MeshBasicMaterial({
+					color: 0xcccccc
+				});
+				// 将上述两个对象合并到一个 plane (平面) 的 Mesh (网格) 对象中
+				var plane = new THREE.Mesh(planeGeo, planeMaterial);
+				plane.rotation.x = -0.5 * Math.PI; // 绕着 x 轴旋转 90 度 (弧度制)
+				plane.position.set(15, 0, 0); // 设置坐标 (x, y, z);
+				scene.add(plane);
+				
+				var cubeGeo = new THREE.CubeGeometry(4, 4, 4); // 定义方块尺寸为 长(x轴长) 4 宽(y轴长) 4 高(z轴长) 4 
+				// 创建一个基本材质，颜色是 #ff0000 线框属性为 true
+				var cubeMaterial = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					wireframe: true
+				});
+				// 将上述两个对象合并到一个 cube (立方体) 的 Mesh (网格) 对象中
+				var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
+				cube.position.set(-4, 3, 0); // 设置坐标 (x, y, z);
+				scene.add(cube);
+				
+				var sphereGeo = new THREE.SphereGeometry(4, 20, 20); // 定义球体的尺寸为 半径  4; 经纬度分段数为 20
+				// 创建一个基本材质，颜色是 #7777ff 线框属性为 true
+				var sphereMaterial = new THREE.MeshBasicMaterial({
+					color: 0x7777ff,
+					wireframe: true
+				});
+				// 将上述两个对象合并到一个 sphere (球体) 的 Mesh (网格) 对象中
+				var sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
+				sphere.position.set(20, 4, 2); // 设置坐标 (x, y, z);
+				scene.add(sphere);
+				
+				camera.position.set(-30, 40, 30); // 设置相机坐标 (x, y, z);
+				camera.lookAt(scene.position); // 确保相机能够拍摄到这些物体，使用 lookAt() 函数指向场景的中心
+				
+				$('#WebGL-output').append(renderer.domElement); // renderer 输出挂接到 HTML 页面框架中的 <div> 元素
+				renderer.render(scene, camera); // 告诉 renderer 用我们提供的相机来渲染 scene
+			});
+		</script>
+	</body>
+</html>

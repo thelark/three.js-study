@@ -53,7 +53,6 @@
 				light.position.set(2, 5, 3);
 				light.target = cube;
 				light.castShadow = true;
-				console.log(light.shadow)
 				light.shadow.radius = 5; // 控制阴影模糊度
 				// 只有介于 shadow.camera.near 与 shadow.camera.far 之间的物体将产生阴影
 				// shadow.camera.fov 表示张角
@@ -66,6 +65,11 @@
 				 * 六个值, 同样, 只有在这六个面围成的长方体内的物体才会产生阴影效果.
 				 */
 				
+				/*
+				 * 这里实现阴影效果的方法是 Shadow Mapping, 即阴影是作为渲染前计算好的贴图贴上去的,
+				 * 因而会受到贴图像素大小的限制. 所以可以通过设置 shadowMapWidth 与 shadowMapHeight 值
+				 * 控制贴图的大小, 来改变阴影的精确度.
+				 */
 				light.shadow.mapSize.width = 1024;
 				light.shadow.mapSize.height = 1024;
 				scene.add(light);

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="../../js/three.js" charset="utf-8"></script>
+	<script src="../../js/jquery-3.2.0.js"></script>
+	<script src="../../js/stats.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/dat.gui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/geometry/ConvexGeometry.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/geometry/ParametricGeometries.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css">
+		body {
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="Stats-output"></div>
+	<div id="WebGL-output"></div>
+
+	<script type="text/javascript">
+		/*
+	     * 使用构建 Three.js 场景的基本组件 - 使用几何和网格对象 - 网格对象的函数和属性
+		 */
+		/*
+		 * Mesh 对象的属性和函数:
+		 * -> position: 决定该对象相对其父对象的位置, 多数情况下, 一个对象的父对象是 THREE.Scene() 对象
+		 * -> rotation: 通过这个属性你可以设置对象绕任何一个轴的旋转弧度
+		 * -> scale: 通过这个属性你可以沿着 x、y 和 z 轴缩放对象
+		 * -> translateX(): 沿 x 轴将对象平移指定的距离
+		 * -> translateY(): 沿 y 轴将对象平移指定的距离
+		 * -> translateZ(): 沿 z 轴将对象平移指定的距离
+		 */
+		$(function () {
+			var stats = initStats();
+			
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+			//scene.add(camera);
+
+			var renderer = new THREE.WebGLRenderer();
+
+			renderer.setClearColor(new THREE.Color(0xeeeeee));
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.shadowMap.enabled = true; // 告诉渲染器渲染阴影
+			renderer.shadowMapSoft = true; // 实现软阴影
+			
+			var planeGeo = new THREE.PlaneGeometry(60, 40, 1, 1);
+			var planeMaterial = new THREE.MeshLambertMaterial({
+				color: 0xffffff
+			});
+			var plane = new THREE.Mesh(planeGeo, planeMaterial);
+			plane.receiveShadow = true;
+
+			plane.rotation.x = -0.5 * Math.PI;
+			plane.position.x = 0;
+			plane.position.y = 0;
+			plane.position.z = 0;
+			scene.add(plane);
+
+			camera.position.set(-20, 25, 20);
+			camera.lookAt(new THREE.Vector3(5, 0, 0));
+
+			var spotLight = new THREE.SpotLight(0xffffff);
+			spotLight.position.set(-40, 60, 10);
+			spotLight.castShadow = true;
+			spotLight.shadow.radius = 1; // 控制阴影模糊度
+			spotLight.shadow.mapSize.width = 2048;
+			spotLight.shadow.mapSize.height = 2048;
+			scene.add(spotLight);
+
+			$('#WebGL-output').append(renderer.domElement);
+
+			
+		
+			render();
+			 
+			function render() {
+				stats.update();
+				
+				requestAnimationFrame(arguments.callee);
+				renderer.render(scene, camera);
+			}
+			
+			function initStats() {
+				var stats = new Stats();
+				
+				stats.setMode(0);
+				
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				stats.domElement.style.left = '0px';
+				
+				$('#Stats-output').append(stats.domElement);
+				
+				return stats;
+			}
+		});
+	</script>
+</body>
+
+</html>

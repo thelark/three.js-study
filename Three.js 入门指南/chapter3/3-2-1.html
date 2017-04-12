@@ -32,18 +32,31 @@
 				camera.position.set(3, 3, 3); // 仰望正方体
 				camera.lookAt(new THREE.Vector3(0, 0, 0)); // 通过 lookAt 函数指定它看着原点的方向
 				scene.add(camera);
+				var loader = new THREE.FontLoader();
+				loader.load('../../fonts/helvetiker_regular.typeface.json', function (font) {
 
-				var textGeo = new THREE.TextGeometry('Hello', { size: 1, height: 1 });
-				var text = new THREE.Mesh(
-					textGeo,
-					new THREE.MeshBasicMaterial({
-						color: 0xff0000,
-						wireframe: true
-					})
-				);
-				scene.add(text);
+					var textGeo = new THREE.TextGeometry( 'Hello', {
+						font: font,
+						size: 1,
+						height: 1,
+						curveSegments: 12,
+						bevelEnabled: false,
+						bevelThickness: 1,
+						bevelSize: 0.5,
+						bevelSegments: 3
+					} );
+					textGeo.center();
 
-
+					var text = new THREE.Mesh(
+						textGeo,
+						new THREE.MeshBasicMaterial({
+							color: 0xff0000,
+							wireframe: true
+						})
+					);
+					scene.add(text);
+					renderer.render(scene, camera);
+				});
 				renderer.render(scene, camera);
 			}
 		</script>

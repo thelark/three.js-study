@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="../../js/three.js" charset="utf-8"></script>
+	<script src="../../js/jquery-3.2.0.js"></script>
+	<script src="../../js/stats.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/dat.gui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/geometry/ConvexGeometry.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/geometry/ParametricGeometries.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css">
+		body {
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="Stats-output"></div>
+	<div id="WebGL-output"></div>
+
+	<script type="text/javascript">
+		/*
+	     * 使用构建 Three.js 场景的基本组件 - 使用几何和网格对象 - 几何对象的属性和函数
+		 */
+		$(function () {
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+			scene.add(camera);
+
+			var renderer = new THREE.WebGLRenderer();
+
+			renderer.setClearColor(new THREE.Color(0xeeeeee));
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.shadowMap.enabled = true; // 告诉渲染器渲染阴影
+			renderer.shadowMapSoft = true; // 实现软阴影
+			
+			!function (scene) {
+				var geos = []; // 定义组件数组
+				geos.push(new THREE.CylinderGeometry(1, 4, 4)); // 圆柱体
+				geos.push(new THREE.BoxGeometry(2, 2, 2)); // 长方体
+				geos.push(new THREE.IcosahedronGeometry(4)); //正二十面体
+				// 定义顶点
+				var points = [
+                	new THREE.Vector3(2, 2, 2),
+                	new THREE.Vector3(2, 2, -2),
+                	new THREE.Vector3(-2, 2, -2),
+                	new THREE.Vector3(-2, 2, 2),
+                	new THREE.Vector3(2, -2, 2),
+                	new THREE.Vector3(2, -2, -2),
+                	new THREE.Vector3(-2, -2, -2),
+                	new THREE.Vector3(-2, -2, 2)
+            	];
+				geos.push(new THREE.ConvexGeometry(points));
+				
+				var pts = [];
+				var detail = .1;
+				var radius = 3;
+				for (var angle = 0.0; angle < Math.PI; angle += detail)//0 - 180°
+                	pts.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));// angle / radius to x,z
+                geos.push(new THREE.LatheGeometry(pts, 12));
+                
+                geos.push(new THREE.OctahedronGeometry(3)); // 正八面体
+                geos.push(new THREE.ParametricGeometry(THREE.ParametricGeometries.mobius3d, 20, 10));
+                
+                geos.push(new THREE.TetrahedronGeometry(3)); // 正四面体
+                geos.push(new THREE.TorusGeometry(3, 1, 10, 10)); // 管道
+                geos.push(new THREE.TorusKnotGeometry(3, 0.5, 50, 20)); // 圆环结
+                
+                var positionZ = 0;
+                for (var index = 0, length = geos.length; index < length; index++) {
+                	var materials = [
+                		new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true}),
+                		new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff, shading: THREE.FlatShading})
+                	];
+                	var mesh = THREE.SceneUtils.createMultiMaterialObject(geos[index], materials);
+                	mesh.traverse(function (e) {
+                		e.castShadow = true;
+                	});
+                	
+                	mesh.position.x = -24 + ((index % 4) * 12);
+                	mesh.position.y = 4;
+                	mesh.position.z = -8 + (positionZ * 12);
+                	
+                	if ((index + 1) % 4 == 0) positionZ++;
+                	scene.add(mesh);
+                }
+			}(scene);
+
+			var planeGeo = new THREE.PlaneGeometry(60, 40, 1, 1);
+			var planeMaterial = new THREE.MeshLambertMaterial({
+				color: 0xffffff
+			});
+			var plane = new THREE.Mesh(planeGeo, planeMaterial);
+			plane.receiveShadow = true;
+
+			plane.rotation.x = -0.5 * Math.PI;
+			plane.position.x = 0;
+			plane.position.y = 0;
+			plane.position.z = 0;
+			scene.add(plane);
+
+			camera.position.set(-50, 30, 20);
+			camera.lookAt(new THREE.Vector3(-10, 0, 0));
+
+			var ambientLight = new THREE.AmbientLight(0x090909);
+			scene.add(ambientLight);
+
+			var spotLight = new THREE.SpotLight(0xffffff);
+			spotLight.position.set(-40, 40, 50);
+			spotLight.castShadow = true;
+			spotLight.shadow.radius = 1; // 控制阴影模糊度
+			spotLight.shadow.mapSize.width = 2048;
+			spotLight.shadow.mapSize.height = 2048;
+			scene.add(spotLight);
+
+			$('#WebGL-output').append(renderer.domElement);
+
+			render();
+
+			function render() {
+				requestAnimationFrame(arguments.callee);
+				renderer.render(scene, camera);
+			}
+		})
+	</script>
+</body>
+
+</html>
